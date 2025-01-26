@@ -19,3 +19,36 @@ export const useRestaurant = () => {
 
   return { getLatestCustomers };
 };
+
+export const fetchRecentTimes = async () => {
+  const { data : customersRealTime, error } = await supabase
+    .from('customersRealTime')
+    .select('created_at')
+    .range(0, 9)
+
+  if (error) {
+    throw new Error("Failed to get latest time data");
+  }
+
+  const createdAtArray = customersRealTime.map((item) => item.created_at);
+  console.log(createdAtArray);
+
+  return createdAtArray;
+}
+
+
+export const fetchRecentCounts = async () => {
+  const { data : customersRealTime, error } = await supabase
+    .from('customersRealTime')
+    .select('count')
+    .range(0, 9)
+
+  if (error) {
+    throw new Error("Failed to get latest count data");
+  }
+
+  const countArray = customersRealTime.map((item) => item.count);
+  console.log(countArray);
+
+  return countArray;
+}
