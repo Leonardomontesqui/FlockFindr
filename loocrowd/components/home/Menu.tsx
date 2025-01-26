@@ -127,7 +127,7 @@ export default function Menu() {
         </div>
       </section>
       <h1 className="text-[#E5E5E5] mx-auto font-medium mt-4 text-[30px]">
-        FlockFinder
+        FlockFindr
       </h1>
     </div>
   );
