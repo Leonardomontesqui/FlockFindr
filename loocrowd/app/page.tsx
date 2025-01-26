@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Menu from "@/components/home/Menu";
+import Navbar from "@/components/home/Navbar";
 import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
 // import "@mappedin/mappedin-js/lib/index.css";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
@@ -57,6 +58,7 @@ export default function Home() {
   return (
     <MapView mapData={mapData}>
       <Menu />
+      <Navbar />
       <Goose />
     </MapView>
   );

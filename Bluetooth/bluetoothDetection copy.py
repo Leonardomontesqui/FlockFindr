@@ -15,7 +15,7 @@ RSSI_AT_1M = -50  # Expected RSSI value at 1 meter
 PATH_LOSS_EXPONENT = 2  # Path loss exponent 
 
 # Supabase initialization
-supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_ANON_KEY"))
+supabase = create_client(os.getenv("NEXT_PUBLIC_SUPABASE_URL"), os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY"))
 
 def insertCustomerRow(newCount):
     """
