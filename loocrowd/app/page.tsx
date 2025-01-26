@@ -6,6 +6,7 @@ import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
+import NavBar from "@/components/home/NavBar";
 
 const supabase = createSupabaseClient();
 interface CustomerData {
@@ -55,7 +56,8 @@ export default function Home() {
 
   return (
     <MapView mapData={mapData}>
-      <Menu />
+      {/* <Menu /> */}
+      <NavBar />
       <Goose count={count} />
     </MapView>
   );
