@@ -8,7 +8,6 @@ import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
-import NavBar from "@/components/home/NavBar";
 
 const supabase = createSupabaseClient();
 interface CustomerData {
@@ -22,14 +21,15 @@ const options = {
 };
 
 export default function Home() {
-  const { getLatestCustomers } = useRestaurant();
-  const [count, setCount] = useState<number>(0); // Initialize count
+  const { getLatestCustomersTims, getLatestRCH } = useRestaurant();
+  const [countTims, setCountTims] = useState<number>(0); // Initialize count
+  const [countRCH, setCountRCH] = useState<number>(0);
 
   const { isLoading, error, mapData } = useMapData(options);
 
   useEffect(() => {
-    getLatestCustomers().then((data) => setCount(data[0].count));
-
+    getLatestCustomersTims().then((data) => setCountTims(data[0].count));
+    getLatestRCH().then((data) => setCountRCH(data[0].count));
     const channel = supabase
       .channel("schema-db-changes")
       .on(
@@ -42,7 +42,11 @@ export default function Home() {
         (payload: any) => {
           console.log("Received payload:", payload);
           const updatedData: CustomerData = payload.new;
-          setCount(updatedData.count);
+          if (updatedData.restaurant === "Timmies") {
+            setCountTims(updatedData.count);
+          } else if (updatedData.restaurant === "RCH") {
+            setCountRCH(updatedData.count);
+          }
         }
       )
       .subscribe();
@@ -52,7 +56,7 @@ export default function Home() {
     };
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || !mapData) return <div>Loading...</div>;
 
   if (error) return <div>Error: {error.message}</div>;
 
@@ -60,7 +64,7 @@ export default function Home() {
     <MapView mapData={mapData}>
       <Menu />
       <Graph />
-      <Goose />
+      <Goose countTims={countTims} countRCH={countRCH} />
     </MapView>
   );
 }

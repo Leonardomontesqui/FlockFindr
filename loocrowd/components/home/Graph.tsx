@@ -1,10 +1,30 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Chart, LineElement, LineController, CategoryScale, LinearScale, Tooltip, Title, PointElement } from "chart.js";
-import { fetchRecentTimes, fetchRecentCounts } from "@/lib/supabase/useRestaurant";
+import {
+  Chart,
+  LineElement,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Title,
+  PointElement,
+} from "chart.js";
+import {
+  fetchRecentTimes,
+  fetchRecentCounts,
+} from "@/lib/supabase/useRestaurant";
 
 // Register required Chart.js components
-Chart.register(LineElement, LineController, CategoryScale, LinearScale, Tooltip, Title, PointElement);
+Chart.register(
+  LineElement,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Title,
+  PointElement
+);
 
 const CustomerLineGraph: React.FC = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false); // Panel visibility
@@ -28,7 +48,10 @@ const CustomerLineGraph: React.FC = () => {
       }
     };
 
-    const renderChart = (restaurant: string, data: { labels: string[]; values: number[] }) => {
+    const renderChart = (
+      restaurant: string,
+      data: { labels: string[]; values: number[] }
+    ) => {
       const canvas = chartRefs.current.get(restaurant);
 
       if (canvas) {
@@ -108,7 +131,7 @@ const CustomerLineGraph: React.FC = () => {
   return (
     <div>
       <button
-        className="absolute top-4 right-4 z-50 bg-[#C20032] text-white px-4 py-2 rounded shadow-lg"
+        className="absolute top-4 right-4 z-50 bg-[#038BF5] border border-[#007DDF] text-white px-4 py-2 rounded-lg shadow-lg"
         onClick={() => setIsPanelOpen((prev) => !prev)}
       >
         {isPanelOpen ? "Close Chart Panel" : "Open Chart Panel"}
@@ -127,7 +150,11 @@ const CustomerLineGraph: React.FC = () => {
             <div key={restaurant}>
               <h3 className="text-lg font-medium mb-2">{restaurant}</h3>
               <canvas
-                ref={(el) => {if (el) {chartRefs.current.set(restaurant, el);}}}                  
+                ref={(el) => {
+                  if (el) {
+                    chartRefs.current.set(restaurant, el);
+                  }
+                }}
                 className="w-full h-64"
               ></canvas>
             </div>

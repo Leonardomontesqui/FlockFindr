@@ -2,7 +2,7 @@ import "./globals.css"; // Ensure you have a global CSS file for custom styles i
 import React from "react";
 
 export const metadata = {
-  title: "Mappedin JS v6 Getting Started",
+  title: "Flock Finder",
   viewport: "width=device-width, initial-scale=1.0",
   charset: "UTF-8",
 };

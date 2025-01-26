@@ -1,38 +1,72 @@
 import Mappedin, { Model, useMap } from "@mappedin/react-sdk";
 import React from "react";
 
-// Function to generate random coordinates within the specified bounds
 const generateRandomCoordinates = (
   count: number,
-  latMin: number,
-  latMax: number,
-  lngMin: number,
-  lngMax: number
+  coordinates: Mappedin.Coordinate[]
 ): Mappedin.Coordinate[] => {
-  const coordinates: Mappedin.Coordinate[] = [];
+  // Sort coordinates to create a proper bounding box
+  const sortedLats = coordinates.map((c) => c.latitude).sort((a, b) => a - b);
+  const sortedLngs = coordinates.map((c) => c.longitude).sort((a, b) => a - b);
+
+  const latMin = sortedLats[0];
+  const latMax = sortedLats[sortedLats.length - 1];
+  const lngMin = sortedLngs[0];
+  const lngMax = sortedLngs[sortedLngs.length - 1];
+
+  const randomCoordinates: Mappedin.Coordinate[] = [];
+
   for (let i = 0; i < count; i++) {
-    const lat = Math.random() * (latMax - latMin) + latMin;
-    const lng = Math.random() * (lngMax - lngMin) + lngMin;
-    coordinates.push(new Mappedin.Coordinate(lat, lng));
+    const lat = latMin + Math.random() * (latMax - latMin);
+    const lng = lngMin + Math.random() * (lngMax - lngMin);
+    randomCoordinates.push(new Mappedin.Coordinate(lat, lng));
   }
-  return coordinates;
+
+  return randomCoordinates;
 };
 
-export function Goose({ count }: { count: number }) {
+export function Goose({
+  countTims,
+  countRCH,
+}: {
+  countTims: number;
+  countRCH: number;
+}) {
   const { mapData } = useMap();
 
   // Generate random coordinates
-  const coordinates = generateRandomCoordinates(
-    count,
-    43.47134,
-    43.47137,
-    -80.54525,
-    -80.5451
-  );
+  const coordinatesTims = generateRandomCoordinates(countTims, [
+    new Mappedin.Coordinate(43.4713657, -80.54522629),
+    new Mappedin.Coordinate(43.47138214, -80.54521374),
+    new Mappedin.Coordinate(43.47136213, -80.54512565),
+    new Mappedin.Coordinate(43.47134444, -80.54513663),
+  ]);
+
+  const coordinatesRCH = generateRandomCoordinates(countRCH, [
+    new Mappedin.Coordinate(43.47035868, -80.54058104),
+    new Mappedin.Coordinate(43.47040285, -80.54051076),
+    new Mappedin.Coordinate(43.470337, -80.54046393),
+    new Mappedin.Coordinate(43.47032936, -80.54053556),
+  ]);
 
   return (
     <>
-      {coordinates.map((coordinate, index) => (
+      {coordinatesTims.map((coordinate, index) => (
+        <Model
+          key={index} // Ensure unique keys for each model
+          models={mapData.getByType("space").map((space) => ({
+            target: coordinate, // Set each model's target to the respective coordinate
+            scale: [0.03, 0.03, 0.03],
+            rotation: [90, 0, 0],
+            opacity: 0.5,
+          }))}
+          options={{
+            url: "/finalGoosey.glb",
+          }}
+        />
+      ))}
+
+      {coordinatesRCH.map((coordinate, index) => (
         <Model
           key={index} // Ensure unique keys for each model
           models={mapData.getByType("space").map((space) => ({
