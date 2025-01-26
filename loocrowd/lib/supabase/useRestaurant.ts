@@ -20,30 +20,34 @@ export const useRestaurant = () => {
   return { getLatestCustomers };
 };
 
-export const fetchRecentTimes = async () => {
+export const fetchRecentTimes = async (NAME : string) => {
   const { data : customersRealTime, error } = await supabase
     .from('customersRealTime')
     .select('created_at')
-    .range(0, 9)
+    .eq('restaurant', NAME)
+    .order('created_at', {ascending: false})
+    .limit(10)
 
-  if (error) {
+  if (error || !customersRealTime) {
     throw new Error("Failed to get latest time data");
   }
 
-  const createdAtArray = customersRealTime.map((item) => item.created_at);
+  const createdAtArray = customersRealTime.map((item) => item.created_at.slice(0, item.created_at.indexOf('T')) + " " + item.created_at.slice(item.created_at.indexOf('T') + 1, item.created_at.indexOf('.')));
   console.log(createdAtArray);
 
   return createdAtArray;
 }
 
 
-export const fetchRecentCounts = async () => {
+export const fetchRecentCounts = async (NAME : string) => {
   const { data : customersRealTime, error } = await supabase
     .from('customersRealTime')
     .select('count')
-    .range(0, 9)
+    .eq('restaurant', NAME)
+    .order('count', { ascending: false })
+    .limit(10)
 
-  if (error) {
+  if (error || !customersRealTime) {
     throw new Error("Failed to get latest count data");
   }
 

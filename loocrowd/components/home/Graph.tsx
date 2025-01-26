@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Chart, LineElement, LineController, CategoryScale, LinearScale, Tooltip, Title, PointElement } from "chart.js";
 import { fetchRecentTimes, fetchRecentCounts } from "@/lib/supabase/useRestaurant";
 
@@ -7,45 +7,51 @@ import { fetchRecentTimes, fetchRecentCounts } from "@/lib/supabase/useRestauran
 Chart.register(LineElement, LineController, CategoryScale, LinearScale, Tooltip, Title, PointElement);
 
 const CustomerLineGraph: React.FC = () => {
-  const chartRef = useRef<HTMLCanvasElement | null>(null);
-  const chartInstance = useRef<Chart | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false); // Panel visibility
+  const chartRefs = React.useRef<Map<string, HTMLCanvasElement>>(new Map());
+  const chartInstances = React.useRef<Map<string, Chart>>(new Map());
+
+  // List of restaurants
+  const restaurants = ["Timmies", "RCH"];
 
   useEffect(() => {
-    const generateChartData = async () => {
+    const generateChartData = async (restaurant: string) => {
       try {
-        // Fetch data from the API
-        const labels = await fetchRecentTimes();
-        const values = await fetchRecentCounts();
+        // Fetch data for the given restaurant
+        const labels = await fetchRecentTimes(restaurant);
+        const values = await fetchRecentCounts(restaurant);
 
-        // Render the chart
-        renderChart({ labels, values });
+        // Render the chart for the given restaurant
+        renderChart(restaurant, { labels, values });
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error(`Error fetching data for ${restaurant}:`, error);
       }
     };
 
-    const renderChart = (data: { labels: string[]; values: number[] }) => {
-      if (chartRef.current) {
-        // Destroy existing chart instance if it exists
-        if (chartInstance.current) {
-          chartInstance.current.destroy();
+    const renderChart = (restaurant: string, data: { labels: string[]; values: number[] }) => {
+      const canvas = chartRefs.current.get(restaurant);
+
+      if (canvas) {
+        // Destroy existing chart instance for the restaurant, if any
+        if (chartInstances.current.has(restaurant)) {
+          chartInstances.current.get(restaurant)?.destroy();
         }
 
-        // Create a new Chart.js instance
-        chartInstance.current = new Chart(chartRef.current, {
+        // Create a new Chart.js instance for the restaurant
+        const chart = new Chart(canvas, {
           type: "line",
           data: {
             labels: data.labels,
             datasets: [
               {
-                label: "Number of Customers",
+                label: `Customer Trends: ${restaurant}`,
                 data: data.values,
                 borderColor: "rgba(75, 192, 192, 1)",
-                backgroundColor: "rgba(75, 192, 192, 0.2)", // Optional fill color under the line
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
                 borderWidth: 2,
-                tension: 0.4, // Smooth the line
-                pointRadius: 4, // Adjust point size
-                fill: true, // Fill area under the line
+                tension: 0.4,
+                pointRadius: 4,
+                fill: true,
               },
             ],
           },
@@ -54,7 +60,7 @@ const CustomerLineGraph: React.FC = () => {
             plugins: {
               title: {
                 display: true,
-                text: "Number of Customers Over Time",
+                text: `Number of Customers Over Time - ${restaurant}`,
               },
               tooltip: {
                 enabled: true,
@@ -77,31 +83,57 @@ const CustomerLineGraph: React.FC = () => {
             },
           },
         });
+
+        // Store the chart instance for the restaurant
+        chartInstances.current.set(restaurant, chart);
       }
     };
 
-    // Initialize the chart with data
-    generateChartData();
+    // Generate charts for all restaurants
+    restaurants.forEach((restaurant) => generateChartData(restaurant));
 
-    // Update the chart every 5 minutes
+    // Update the charts every 5 minutes
     const intervalId = setInterval(() => {
-      generateChartData();
-    }, 5 * 60 * 1000); // 5 minutes
+      restaurants.forEach((restaurant) => generateChartData(restaurant));
+    }, 5 * 60 * 1000);
 
-    // Cleanup function to destroy the chart instance and clear interval
+    // Destroy all chart instances and clear interval
     return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-        chartInstance.current = null;
-      }
+      chartInstances.current.forEach((chart) => chart.destroy());
+      chartInstances.current.clear();
       clearInterval(intervalId);
     };
-  }, []);
+  }, [restaurants]);
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Customer Trends</h2>
-      <canvas ref={chartRef}></canvas>
+    <div>
+      <button
+        className="absolute top-4 right-4 z-50 bg-[#C20032] text-white px-4 py-2 rounded shadow-lg"
+        onClick={() => setIsPanelOpen((prev) => !prev)}
+      >
+        {isPanelOpen ? "Close Chart Panel" : "Open Chart Panel"}
+      </button>
+
+      <div
+        style={{ width: "600px" }}
+        className={`fixed top-0 right-0 h-full bg-white shadow-xl transform transition-transform duration-300 z-40 ${
+          isPanelOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="p-4 space-y-6">
+          <h2 className="text-xl font-semibold">Customer Trends</h2>
+
+          {restaurants.map((restaurant) => (
+            <div key={restaurant}>
+              <h3 className="text-lg font-medium mb-2">{restaurant}</h3>
+              <canvas
+                ref={(el) => {if (el) {chartRefs.current.set(restaurant, el);}}}                  
+                className="w-full h-64"
+              ></canvas>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
