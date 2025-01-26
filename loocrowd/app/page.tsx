@@ -8,7 +8,6 @@ import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
-import 'chart.js';
 
 const supabase = createSupabaseClient();
 interface CustomerData {
