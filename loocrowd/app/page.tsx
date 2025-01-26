@@ -57,7 +57,7 @@ export default function Home() {
   return (
     <MapView mapData={mapData}>
       <Menu />
-      <Goose />
+      <Goose count={count} />
     </MapView>
   );
 }
