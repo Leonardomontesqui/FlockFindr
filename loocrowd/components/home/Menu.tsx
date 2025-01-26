@@ -73,9 +73,6 @@ export default function Menu() {
           count={count}
         />
       </div>
-      {/* <div className="absolute top-4 right-4 z-50 flex flex-col gap-2 p-6 pt-4 border w-fit rounded-lg">
-        <PredictionChip />
-      </div> */}
     </div>
   );
 }

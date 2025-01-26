@@ -37,12 +37,12 @@ export function Goose({ count }: { count: number }) {
           key={index} // Ensure unique keys for each model
           models={mapData.getByType("space").map((space) => ({
             target: coordinate, // Set each model's target to the respective coordinate
-            scale: [0.05, 0.05, 0.05],
+            scale: [0.03, 0.03, 0.03],
             rotation: [90, 0, 0],
             opacity: 0.5,
           }))}
           options={{
-            url: "/Goose_3D_Model.glb",
+            url: "/finalGoosey.glb",
           }}
         />
       ))}
