@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Menu from "@/components/home/Menu";
 import Graph from "@/components/home/Graph";
-import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
+import { MapView, useMapData } from "@mappedin/react-sdk";
 // import "@mappedin/mappedin-js/lib/index.css";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
 import { createSupabaseClient } from "@/lib/supabase/client";
@@ -39,9 +39,8 @@ export default function Home() {
           schema: "public",
           table: "customersRealTime", //new db
         },
-        (payload: any) => {
-          console.log("Received payload:", payload);
-          const updatedData: CustomerData = payload.new;
+        (payload) => {
+          const updatedData: CustomerData = payload.new as CustomerData;
           if (updatedData.restaurant === "Timmies") {
             setCountTims(updatedData.count);
           } else if (updatedData.restaurant === "RCH") {

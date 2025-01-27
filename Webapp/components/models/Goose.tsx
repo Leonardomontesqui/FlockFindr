@@ -54,7 +54,7 @@ export function Goose({
       {coordinatesTims.map((coordinate, index) => (
         <Model
           key={index} // Ensure unique keys for each model
-          models={mapData.getByType("space").map((space) => ({
+          models={mapData.getByType("space").map(() => ({
             target: coordinate, // Set each model's target to the respective coordinate
             scale: [0.03, 0.03, 0.03],
             rotation: [90, 0, 0],
@@ -69,7 +69,7 @@ export function Goose({
       {coordinatesRCH.map((coordinate, index) => (
         <Model
           key={index} // Ensure unique keys for each model
-          models={mapData.getByType("space").map((space) => ({
+          models={mapData.getByType("space").map(() => ({
             target: coordinate, // Set each model's target to the respective coordinate
             scale: [0.03, 0.03, 0.03],
             rotation: [90, 0, 0],

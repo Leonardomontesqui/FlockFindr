@@ -58,9 +58,8 @@ export default function Menu() {
           schema: "public",
           table: "customersRealTime", //new db
         },
-        (payload: any) => {
-          console.log("Received payload:", payload);
-          const updatedData: CustomerData = payload.new;
+        (payload) => {
+          const updatedData: CustomerData = payload.new as CustomerData;
           if (updatedData.restaurant === "Timmies") {
             setCountTims(updatedData.count);
           } else if (updatedData.restaurant === "RCH") {

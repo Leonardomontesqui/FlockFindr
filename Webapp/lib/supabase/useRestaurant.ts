@@ -55,7 +55,6 @@ export const fetchRecentTimes = async (NAME: string) => {
         item.created_at.indexOf(".")
       )
   );
-  console.log(createdAtArray);
 
   return createdAtArray;
 };
@@ -73,7 +72,6 @@ export const fetchRecentCounts = async (NAME: string) => {
   }
 
   const countArray = customersRealTime.map((item) => item.count);
-  console.log(countArray);
 
   return countArray;
 };
