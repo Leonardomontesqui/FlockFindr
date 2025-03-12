@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Menu from "@/components/home/Menu";
-import Graph from "@/components/home/Graph";
+// import Graph from "@/components/home/Graph";
 import { MapView, useMapData } from "@mappedin/react-sdk";
 // import "@mappedin/mappedin-js/lib/index.css";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <MapView mapData={mapData}>
       <Menu />
-      <Graph />
+      {/* <Graph /> */}
       <Goose countTims={countTims} countRCH={countRCH} />
     </MapView>
   );

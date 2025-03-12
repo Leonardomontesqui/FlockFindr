@@ -54,12 +54,12 @@ export function Goose({
       {coordinatesTims.map((coordinate, index) => (
         <Model
           key={index} // Ensure unique keys for each model
-          models={mapData.getByType("space").map(() => ({
+          models={({
             target: coordinate, // Set each model's target to the respective coordinate
-            scale: [0.03, 0.03, 0.03],
-            rotation: [90, 0, 0],
+            scale: [0.02, 0.02, 0.02],
+            rotation: [90, Math.random() * 360, 0],
             opacity: 0.5,
-          }))}
+          })}
           options={{
             url: "/finalGoosey.glb",
           }}
@@ -68,17 +68,17 @@ export function Goose({
 
       {coordinatesRCH.map((coordinate, index) => (
         <Model
-          key={index} // Ensure unique keys for each model
-          models={mapData.getByType("space").map(() => ({
-            target: coordinate, // Set each model's target to the respective coordinate
-            scale: [0.03, 0.03, 0.03],
-            rotation: [90, 0, 0],
-            opacity: 0.5,
-          }))}
-          options={{
-            url: "/finalGoosey.glb",
-          }}
-        />
+        key={index} // Ensure unique keys for each model
+        models={({
+          target: coordinate, // Set each model's target to the respective coordinate
+          scale: [0.02, 0.02, 0.02],
+          rotation: [90, Math.random() * 360, 0],
+          opacity: 0.5,
+        })}
+        options={{
+          url: "/finalGoosey.glb",
+        }}
+      />
       ))}
     </>
   );
