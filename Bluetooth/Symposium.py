@@ -61,11 +61,27 @@ def estimate_people(device_count):
 async def estimation_smoothing():
     estimations = []
     
-    for i in range(3):
+    for i in range(5):
         estimation = await count_devices()
-        print(f"Retrieved {estimation} devices in {i+1}/3 attempts")
+        print(f"Retrieved {estimation} devices in {i+1}/5 attempts")
         estimations.append(estimation)
         await asyncio.sleep(5)
+    
+    def iqr_filtering(estimations):
+        """
+        Filter estimations using the Interquartile Range (IQR) method.
+        """
+        sorted_estimations = sorted(estimations)
+        q1 = sorted_estimations[int(0.25 * len(sorted_estimations))]
+        q3 = sorted_estimations[int(0.75 * len(sorted_estimations))]
+        iqr = q3 - q1
+        lower_bound = q1 - 1.5 * iqr
+        upper_bound = q3 + 1.5 * iqr
+        return [estimation for estimation in sorted_estimations if lower_bound <= estimation <= upper_bound]
+    
+    print(f"Raw estimations: {estimations}")
+    estimations = iqr_filtering(estimations)
+    print(f"Filtered estimations: {estimations}")
     
     average = sum(estimations) // len(estimations)
     print(f"Average estimation: {average}")
