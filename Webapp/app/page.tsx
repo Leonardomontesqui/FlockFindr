@@ -8,6 +8,11 @@ import { MapView, useMapData } from "@mappedin/react-sdk";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
+import { BoothRight } from "@/components/models/boothRight";
+import { BoothLeft } from "@/components/models/boothLeft";
+import { BoothDown } from "@/components/models/boothDown";
+import { BoothCourt } from "@/components/models/boothCourt";
+import { Stage } from "@/components/models/Stage";
 
 const supabase = createSupabaseClient();
 interface CustomerData {
@@ -62,8 +67,12 @@ export default function Home() {
   return (
     <MapView mapData={mapData}>
       <Menu />
-      {/* <Graph /> */}
       <Goose countTims={countTims} countRCH={countRCH} />
+      <BoothRight />
+      <BoothLeft />
+      <BoothDown />
+      <BoothCourt />
+      <Stage />
     </MapView>
   );
 }
