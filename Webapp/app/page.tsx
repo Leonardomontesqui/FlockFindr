@@ -17,7 +17,7 @@ interface CustomerData {
 const options = {
   key: process.env.NEXT_PUBLIC_MAPPEDIN_KEY,
   secret: process.env.NEXT_PUBLIC_MAPPEDIN_SECRET!,
-  mapId: "673531dfeadd0a000b15f06c",
+  mapId: "67d215bbebd59f000b48850f",
 };
 
 export default function Home() {
