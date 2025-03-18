@@ -32,7 +32,7 @@ export function Goose({
   countTims: number;
   countRCH: number;
 }) {
-  const { mapData } = useMap();
+  const {} = useMap(); //mapData used to be inside the brackets
 
   // Generate random coordinates
   const coordinatesTims = generateRandomCoordinates(countTims, [
@@ -54,12 +54,12 @@ export function Goose({
       {coordinatesTims.map((coordinate, index) => (
         <Model
           key={index} // Ensure unique keys for each model
-          models={({
+          models={{
             target: coordinate, // Set each model's target to the respective coordinate
             scale: [0.02, 0.02, 0.02],
             rotation: [90, Math.random() * 360, 0],
             opacity: 0.5,
-          })}
+          }}
           options={{
             url: "/finalGoosey.glb",
           }}
@@ -68,17 +68,17 @@ export function Goose({
 
       {coordinatesRCH.map((coordinate, index) => (
         <Model
-        key={index} // Ensure unique keys for each model
-        models={({
-          target: coordinate, // Set each model's target to the respective coordinate
-          scale: [0.02, 0.02, 0.02],
-          rotation: [90, Math.random() * 360, 0],
-          opacity: 0.5,
-        })}
-        options={{
-          url: "/finalGoosey.glb",
-        }}
-      />
+          key={index} // Ensure unique keys for each model
+          models={{
+            target: coordinate, // Set each model's target to the respective coordinate
+            scale: [0.02, 0.02, 0.02],
+            rotation: [90, Math.random() * 360, 0],
+            opacity: 0.5,
+          }}
+          options={{
+            url: "/finalGoosey.glb",
+          }}
+        />
       ))}
     </>
   );

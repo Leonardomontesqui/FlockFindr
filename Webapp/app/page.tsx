@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Menu from "@/components/home/Menu";
-// import Graph from "@/components/home/Graph";
 import { MapView, useMapData } from "@mappedin/react-sdk";
-// import "@mappedin/mappedin-js/lib/index.css";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";

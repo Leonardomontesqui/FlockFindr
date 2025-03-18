@@ -19,11 +19,8 @@ export default function RootLayout({
         <meta name="viewport" content={metadata.viewport} />
         <title>{metadata.title}</title>
       </head>
-      <body className="m-0 p-0 w-full h-full">
-        <div id="root" className="h-full w-full relative">
-          {children}
-        </div>
-      </body>
+      <body className="m-0 p-0 w-full h-full relative">{children}</body>
     </html>
   );
 }
+// not sure if the following fixed the overflow

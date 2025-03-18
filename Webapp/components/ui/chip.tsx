@@ -23,6 +23,9 @@ const BasePeopleChip = memo(
   }
 );
 
+// Set displayName for BasePeopleChip
+BasePeopleChip.displayName = "BasePeopleChip";
+
 // Specialized components with fixed colors
 export const BluePeopleChip = memo(({ count }: { count: number }) => (
   <BasePeopleChip
@@ -32,6 +35,9 @@ export const BluePeopleChip = memo(({ count }: { count: number }) => (
   />
 ));
 
+// Set displayName for BluePeopleChip
+BluePeopleChip.displayName = "BluePeopleChip";
+
 export const OrangePeopleChip = memo(({ count }: { count: number }) => (
   <BasePeopleChip
     count={count}
@@ -39,6 +45,9 @@ export const OrangePeopleChip = memo(({ count }: { count: number }) => (
     borderColor="border-[#D77965]"
   />
 ));
+
+// Set displayName for OrangePeopleChip
+OrangePeopleChip.displayName = "OrangePeopleChip";
 
 // Only needed if you want a dynamic color option
 export const PeopleChip = memo(
@@ -55,3 +64,6 @@ export const PeopleChip = memo(
     return <BluePeopleChip count={count} />;
   }
 );
+
+// Set displayName for PeopleChip
+PeopleChip.displayName = "PeopleChip";
