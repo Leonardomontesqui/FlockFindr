@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Menu from "@/components/home/Menu";
+import { useMediaQuery } from "react-responsive";
+import MenuDesktop from "@/components/home/MenuDesktop";
+import MenuMobile from "@/components/home/MenuMobile";
 import { MapView, useMapData } from "@mappedin/react-sdk";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
@@ -19,9 +21,10 @@ const options = {
 };
 
 export default function Home() {
+  const isMobile = useMediaQuery({ maxWidth: 768 }); // Breakpoint at 768px
   const { isLoading, error, mapData } = useMapData(options);
 
-  if (isLoading || !mapData) return <div>Loading...</div>;
+  if (isLoading || !mapData) return <div>Loading...</div>; // TODO: add a loading screen
 
   if (error) return <div>Error: {error.message}</div>;
 
@@ -37,7 +40,7 @@ export default function Home() {
   return (
     <div className="h-screen w-full">
       <MapView mapData={mapData} onLoad={handleMapLoad}>
-        <Menu />
+        {isMobile ? <MenuMobile /> : <MenuDesktop />}
         <Goose />
         <BoothWest />
         <BoothEast />

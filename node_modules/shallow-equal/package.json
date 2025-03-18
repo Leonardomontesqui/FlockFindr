@@ -1,0 +1,80 @@
+{
+  "name": "shallow-equal",
+  "version": "3.1.0",
+  "description": "Typescript-compatible minimalistic shallow equality check for arrays/objects",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.mjs",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "shallow",
+    "equality",
+    "compare",
+    "comparison",
+    "shallowequal",
+    "shallow-equal",
+    "shallowequals",
+    "shallow-equals",
+    "isshallowequal",
+    "is-shallow-equal",
+    "equal",
+    "equals",
+    "isequal",
+    "is-equal",
+    "object",
+    "array",
+    "check",
+    "test",
+    "typescript"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moroshko/shallow-equal.git"
+  },
+  "license": "MIT",
+  "author": "Philip Su <philip@sparkanvil.com>",
+  "scripts": {
+    "prebuild": "npm run lint && npm test",
+    "build": "microbundle --no-compress --format modern,cjs",
+    "lint": "eslint src --ext .ts",
+    "prepare": "npm run build",
+    "test": "jest --coverage",
+    "release": "release-it"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.1.1",
+    "eslint-plugin-json": "^2.0.1",
+    "jest": "^29.4.0",
+    "microbundle": "^0.15.1",
+    "release-it": "^15.6.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.4.4"
+  }
+}

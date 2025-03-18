@@ -1,0 +1,93 @@
+{
+  "name": "react-responsive",
+  "description": "Media queries in react for responsive design",
+  "version": "10.0.1",
+  "homepage": "http://github.com/yocontra/react-responsive",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yocontra/react-responsive.git"
+  },
+  "author": "Contra <yo@contra.io> (https://contra.io)",
+  "license": "MIT",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "css",
+    "react-component",
+    "viewport",
+    "react",
+    "mobile",
+    "media queries",
+    "respond",
+    "media query",
+    "matchMedia",
+    "responsive",
+    "component"
+  ],
+  "dependencies": {
+    "hyphenate-style-name": "^1.0.0",
+    "matchmediaquery": "^0.4.2",
+    "prop-types": "^15.6.1",
+    "shallow-equal": "^3.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.0.0",
+    "@types/chai": "^5.0.0",
+    "@types/hyphenate-style-name": "^1.0.0",
+    "@types/jsdom": "^21.0.0",
+    "@types/match-media-mock": "^0.1.5",
+    "@types/matchmediaquery": "^0.3.0",
+    "@types/mocha": "^10.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/sinon": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "chai": "^5.0.0",
+    "cross-env": "^7.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-compat": "^6.0.0",
+    "gh-pages": "^6.0.0",
+    "jsdom": "^26.0.0",
+    "match-media-mock": "^0.1.1",
+    "mocha": "^11.0.0",
+    "prettier": "^3.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.0.0",
+    "rollup-plugin-node-externals": "^8.0.0",
+    "should": "^13.2.1",
+    "sinon": "^19.0.0",
+    "tslib": "^2.6.2",
+    "tsx": "^4.7.1",
+    "typedoc": "^0.27.9",
+    "typescript": "^5.4.2"
+  },
+  "scripts": {
+    "preversion": "npm run clean && npm run build",
+    "postpublish": "npm run tag && npm run docs",
+    "prebuild": "npm run clean",
+    "build:types": "tsc --outDir ./dist/types --declaration --emitDeclarationOnly",
+    "build:lib": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build": "npm run build:lib && npm run build:types",
+    "build:watch": "npm run build -- --watch",
+    "clean": "rimraf dist",
+    "tag": "git tag -a \"v$npm_package_version\" -m \"tag version $npm_package_version\" && git push origin master --tags",
+    "lint": "eslint --ext=ts,tsx . src test --fix && prettier . src test --write",
+    "test": "npx mocha -R spec ./test/setup.js test/*_test.{ts,tsx}",
+    "docs": "typedoc src/index.ts && gh-pages -d docs"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
