@@ -8,7 +8,7 @@ import os
 load_dotenv('.env.local')
 
 # Configurable Parameters
-MAX_DISTANCE = 2  # Maximum distance to consider devices (in meters)
+MAX_DISTANCE = 15  # Maximum distance to consider devices (in meters)
 SAME_DISTANCE_THRESHOLD = 0.2  # Threshold to consider devices in the same distance group
 SCAN_INTERVAL = 10  # Time between scans in seconds
 RSSI_AT_1M = -50  # Expected RSSI value at 1 meter

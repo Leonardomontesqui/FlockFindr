@@ -6,9 +6,9 @@ import { MapView, useMapData } from "@mappedin/react-sdk";
 import { useRestaurant } from "@/lib/supabase/useRestaurant";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
-import { BoothRight } from "@/components/models/boothRight";
-import { BoothLeft } from "@/components/models/boothLeft";
-import { BoothDown } from "@/components/models/boothDown";
+import { BoothWest } from "@/components/models/boothWest";
+import { BoothEast } from "@/components/models/boothEast";
+import { BoothNorth } from "@/components/models/boothNorth";
 import { BoothCourt } from "@/components/models/boothCourt";
 import { Stage } from "@/components/models/Stage";
 
@@ -78,9 +78,9 @@ export default function Home() {
     >
       <Menu />
       <Goose countTims={countTims} countRCH={countRCH} />
-      <BoothRight />
-      <BoothLeft />
-      <BoothDown />
+      <BoothWest />
+      <BoothEast />
+      <BoothNorth />
       <BoothCourt />
       <Stage />
     </MapView>

@@ -8,7 +8,7 @@ const symposiumCoordinates: Mappedin.Coordinate[] = [
   // Add more coordinates as needed for your specific layout
 ];
 
-export function BoothDown ({
+export function BoothNorth ({
   count = 10, // Default to 10 desks if not specified
 }: {
   count?: number;
@@ -33,7 +33,7 @@ export function BoothDown ({
             opacity: 1.0, // Full opacity for desks
           })}
           options={{
-            url: "/reworkedBoothLeftV2.glb", // Use the desk model instead of goose
+            url: "/boothNorth.glb", // Use the desk model instead of goose
           }}
         />
       ))}
