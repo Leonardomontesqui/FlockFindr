@@ -19,7 +19,9 @@ export default function RootLayout({
         <meta name="viewport" content={metadata.viewport} />
         <title>{metadata.title}</title>
       </head>
-      <body className="m-0 p-0 w-full h-full relative">{children}</body>
+      <body className="m-0 p-0 h-screen w-full overflow-hidden">
+        {children}
+      </body>
     </html>
   );
 }

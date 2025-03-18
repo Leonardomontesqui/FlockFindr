@@ -35,15 +35,17 @@ export default function Home() {
   };
 
   return (
-    <MapView mapData={mapData} onLoad={handleMapLoad}>
-      <Menu />
-      <Goose />
-      <BoothWest />
-      <BoothEast />
-      <BoothNorth />
-      <BoothCourt />
-      <Stage />
-      <Seats />
-    </MapView>
+    <div className="h-screen w-full">
+      <MapView mapData={mapData} onLoad={handleMapLoad}>
+        <Menu />
+        <Goose />
+        <BoothWest />
+        <BoothEast />
+        <BoothNorth />
+        <BoothCourt />
+        <Stage />
+        <Seats />
+      </MapView>
+    </div>
   );
 }
