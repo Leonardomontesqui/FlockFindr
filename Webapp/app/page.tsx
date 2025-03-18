@@ -10,6 +10,7 @@ import { BoothEast } from "@/components/models/boothEast";
 import { BoothNorth } from "@/components/models/boothNorth";
 import { BoothCourt } from "@/components/models/boothCourt";
 import { Stage } from "@/components/models/Stage";
+import { Seats } from "@/components/models/seatingArrangement";
 
 const options = {
   key: process.env.NEXT_PUBLIC_MAPPEDIN_KEY,
@@ -42,6 +43,7 @@ export default function Home() {
       <BoothNorth />
       <BoothCourt />
       <Stage />
+      <Seats />
     </MapView>
   );
 }
