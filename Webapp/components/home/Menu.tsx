@@ -1,7 +1,7 @@
 "use client";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import React, { useEffect, useState } from "react";
-import { useRestaurant } from "@/lib/supabase/useRestaurant";
+import { useLocation } from "@/lib/supabase/useLocation";
 import Mappedin, { useMap } from "@mappedin/react-sdk";
 import Image from "next/image";
 import { PeopleChip } from "../ui/chip";
@@ -14,14 +14,21 @@ interface CustomerData {
 }
 
 export default function Menu() {
-  const { getLatestCustomersTims, getLatestRCH } = useRestaurant();
+  const { getLatestCount } = useLocation();
   const { mapView } = useMap();
-  const [countTims, setCountTims] = useState<number>(0); // Initialize count
-  const [countRCH, setCountRCH] = useState<number>(0); // Initialize count
+  const [countActivityCourt, setCountActivityCourt] = useState<number>(0); // Initialize count
+  const [countEastTrack, setCountEastTrack] = useState<number>(0);
+  const [countWestTrack, setCountWestTrack] = useState<number>(0);
+  const [countNorthTrack, setCountNorthTrack] = useState<number>(0);
 
   useEffect(() => {
-    getLatestCustomersTims().then((data) => setCountTims(data[0].count));
-    getLatestRCH().then((data) => setCountRCH(data[0].count));
+    getLatestCount("Activity").then((data) =>
+      setCountActivityCourt(data[0].count)
+    );
+    getLatestCount("East").then((data) => setCountEastTrack(data[0].count));
+
+    getLatestCount("West").then((data) => setCountWestTrack(data[0].count));
+    getLatestCount("North").then((data) => setCountNorthTrack(data[0].count));
 
     const channel = supabase
       .channel("schema-db-changes")
@@ -35,9 +42,9 @@ export default function Menu() {
         (payload) => {
           const updatedData: CustomerData = payload.new as CustomerData;
           if (updatedData.restaurant === "Timmies") {
-            setCountTims(updatedData.count);
+            setCountActivityCourt(updatedData.count);
           } else if (updatedData.restaurant === "RCH") {
-            setCountRCH(updatedData.count);
+            setCountEastTrack(updatedData.count);
           }
         }
       )
@@ -77,7 +84,7 @@ export default function Menu() {
 
       <div className="flex gap-8 items-center">
         <div className="flex gap-2 items-center">
-          <PeopleChip count={countTims} primaryColor="orange" />
+          <PeopleChip count={countActivityCourt} primaryColor="orange" />
           <p className="font-medium">Hockey Rink</p>
           <ArrowRight
             onClick={() =>
@@ -86,7 +93,7 @@ export default function Menu() {
           />
         </div>
         <div className="flex gap-2 items-center">
-          <PeopleChip count={countRCH} primaryColor="blue" />
+          <PeopleChip count={countEastTrack} primaryColor="blue" />
           <p className="font-medium">Basketball Arena</p>
           <ArrowRight
             onClick={() => go(new Mappedin.Coordinate(43.4703, -80.5405))}
