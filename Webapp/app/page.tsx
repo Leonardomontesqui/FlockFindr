@@ -5,9 +5,9 @@ import Menu from "@/components/home/Menu";
 import { MapView, useMapData } from "@mappedin/react-sdk";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
-import { BoothRight } from "@/components/models/boothRight";
-import { BoothLeft } from "@/components/models/boothLeft";
-import { BoothDown } from "@/components/models/boothDown";
+import { BoothWest } from "@/components/models/boothWest";
+import { BoothEast } from "@/components/models/boothEast";
+import { BoothNorth } from "@/components/models/boothNorth";
 import { BoothCourt } from "@/components/models/boothCourt";
 import { Stage } from "@/components/models/Stage";
 
@@ -24,13 +24,22 @@ export default function Home() {
 
   if (error) return <div>Error: {error.message}</div>;
 
+  const handleMapLoad = (mapView) => {
+    mapView.Camera.set({
+      bearing: 190,
+      pitch: 50,
+      zoomLevel: 18.6,
+      center: [43.46488819, -80.53211819], // Use a default coordinate
+    });
+  };
+
   return (
-    <MapView mapData={mapData}>
+    <MapView mapData={mapData} onLoad={handleMapLoad}>
       <Menu />
       <Goose />
-      <BoothRight />
-      <BoothLeft />
-      <BoothDown />
+      <BoothWest />
+      <BoothEast />
+      <BoothNorth />
       <BoothCourt />
       <Stage />
     </MapView>

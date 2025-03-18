@@ -4,11 +4,11 @@ import React from "react";
 // Define fixed coordinates for desks in Symposium
 const symposiumCoordinates: Mappedin.Coordinate[] = [
   // Main area desks
-  new Mappedin.Coordinate(43.46403996, -80.53209708),
+  new Mappedin.Coordinate(43.46384542, -80.53277533),
   // Add more coordinates as needed for your specific layout
 ];
 
-export function BoothRight ({
+export function BoothEast ({
   count = 10, // Default to 10 desks if not specified
 }: {
   count?: number;
@@ -28,12 +28,12 @@ export function BoothRight ({
           key={`desk-${index}`} // Ensure unique keys for each model
           models={({
             target: coordinate,
-            scale: [0.011, 0.02, 0.01], // Maintain same scale as original
+            scale: [0.0115, 0.02, 0.01], // Maintain same scale as original
             rotation: [90, 120, 0], // Keep random rotation for visual variety
             opacity: 1.0, // Full opacity for desks
           })}
           options={{
-            url: "/reworkedBoothRightV2.glb", // Use the desk model instead of goose
+            url: "/boothEast.glb", // Use the desk model instead of goose
           }}
         />
       ))}

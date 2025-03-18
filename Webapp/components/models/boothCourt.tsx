@@ -33,7 +33,7 @@ export function BoothCourt ({
             opacity: 1.0, // Full opacity for desks
           })}
           options={{
-            url: "/reworkedBoothCourt.glb", // Use the desk model instead of goose
+            url: "/boothCourtV3.glb", // Use the desk model instead of goose
           }}
         />
       ))}

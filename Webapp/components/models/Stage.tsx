@@ -33,7 +33,7 @@ export function Stage ({
             opacity: 1.0, // Full opacity for stage
           })}
           options={{
-            url: "/reworkedStage.glb", // Use the stage model instead of goose
+            url: "/reworkedStageV2.glb", // Use the stage model instead of goose
           }}
         />
       ))}
