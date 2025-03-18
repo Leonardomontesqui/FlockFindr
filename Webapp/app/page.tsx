@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useEffect, useState } from "react";
 import Menu from "@/components/home/Menu";
@@ -62,8 +62,20 @@ export default function Home() {
 
   if (error) return <div>Error: {error.message}</div>;
 
+  const handleMapLoad = (mapView) => {
+    mapView.Camera.set({ 
+      bearing: 190, 
+      pitch: 50, 
+      zoomLevel: 18.6, 
+      center: [43.46488819, -80.53211819], // Use a default coordinate
+    });
+  };
+
   return (
-    <MapView mapData={mapData}>
+    <MapView 
+      mapData={mapData}
+      onLoad={handleMapLoad}
+    >
       <Menu />
       <Goose countTims={countTims} countRCH={countRCH} />
       <BoothRight />
