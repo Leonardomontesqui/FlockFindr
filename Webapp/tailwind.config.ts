@@ -11,6 +11,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        brown: "#5B534B",
         peach: "#EA846D",
         "peach-dark": "#D77965",
         blue: "#5B8FDF",
