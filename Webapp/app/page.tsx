@@ -24,7 +24,7 @@ export default function Home() {
 
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleMapLoad = (mapView) => {
+  const handleMapLoad = (mapView: any) => {
     mapView.Camera.set({
       bearing: 190,
       pitch: 50,
