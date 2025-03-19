@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import MenuDesktop from "@/components/home/MenuDesktop";
 import MenuMobile from "@/components/home/MenuMobile";
-import { MapView, useMapData, Label } from "@mappedin/react-sdk"; // Added Label import
-import { createSupabaseClient } from "@/lib/supabase/client";
+import Mappedin, { MapView, useMapData, Label } from "@mappedin/react-sdk"; // Added Label import
 import { Goose } from "@/components/models/Goose";
 import { BoothWest } from "@/components/models/boothWest";
 import { BoothEast } from "@/components/models/boothEast";
@@ -28,12 +26,12 @@ export default function Home() {
 
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleMapLoad = (mapView: any) => {
+  const handleMapLoad = (mapView: Mappedin.MapView) => {
     mapView.Camera.set({
       bearing: 190,
       pitch: 50,
       zoomLevel: 18.6,
-      center: [43.46488819, -80.53211819], // Use a default coordinate
+      center: new Mappedin.Coordinate(43.46402731, -80.53238195),
     });
 
     mapView.Outdoor.setStyle(
@@ -41,17 +39,19 @@ export default function Home() {
     );
   };
 
-  // Get all spaces with names
-  const spaces = mapData.getByType('space').filter(space => space.name);
-
   return (
     <div className="h-screen w-full">
-      <MapView mapData={mapData} onLoad={handleMapLoad}>
+      <MapView
+        mapData={mapData}
+        onLoad={(
+          mapView: Mappedin.MapView | React.SyntheticEvent<HTMLDivElement>
+        ) => {
+          if ("Camera" in mapView) {
+            handleMapLoad(mapView as Mappedin.MapView);
+          }
+        }}
+      >
         {isMobile ? <MenuMobile /> : <MenuDesktop />}
-        {/* Add labels for all spaces */}
-        {spaces.map((space, index) => (
-          <Label key={`${index}`} target={space.center} text={space.name} />
-        ))}
         <Goose />
         <BoothWest />
         <BoothEast />

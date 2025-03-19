@@ -7,12 +7,12 @@ const stageCoordinates: Mappedin.Coordinate[] = [
   new Mappedin.Coordinate(43.46373379, -80.53228718),
 ];
 
-export function Stage ({
+export function Stage({
   count = 10, // Default to 10 desks if not specified
 }: {
   count?: number;
 }) {
-  const { mapData } = useMap();
+  const {} = useMap();
 
   // Select only the requested number of coordinates
   const selectedCoordinates = Array(count)
@@ -24,14 +24,14 @@ export function Stage ({
       {selectedCoordinates.map((coordinate, index) => (
         <Model
           key={`desk-${index}`} // Ensure unique keys for each model
-          models={({
+          models={{
             target: coordinate,
             scale: [0.008, 0.008, 0.008], // Maintain same scale as original
             // rotation: [90, 30, 0], // Keep random rotation for visual variety
             rotation: [90, -150, 0], // Keep random rotation for visual variety
 
             opacity: 1.0, // Full opacity for stage
-          })}
+          }}
           options={{
             url: "/reworkedStageV2.glb", // Use the stage model instead of goose
           }}
