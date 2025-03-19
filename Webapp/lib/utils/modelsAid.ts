@@ -24,6 +24,30 @@ const isPointInPolygon = (
 };
 
 /**
+ * Sorts polygon vertices in clockwise order to ensure proper polygon definition
+ */
+const sortPolygonVertices = (vertices: Mappedin.Coordinate[]): Mappedin.Coordinate[] => {
+  if (vertices.length < 3) return vertices;
+  
+  // Find center point of the polygon
+  const center = vertices.reduce(
+    (acc, vertex) => {
+      acc.latitude += vertex.latitude / vertices.length;
+      acc.longitude += vertex.longitude / vertices.length;
+      return acc;
+    },
+    { latitude: 0, longitude: 0 }
+  );
+  
+  // Sort vertices by angle from center point
+  return [...vertices].sort((a, b) => {
+    const angleA = Math.atan2(a.latitude - center.latitude, a.longitude - center.longitude);
+    const angleB = Math.atan2(b.latitude - center.latitude, b.longitude - center.longitude);
+    return angleA - angleB;
+  });
+};
+
+/**
  * Generates random coordinates within a polygon boundary
  * @param count Number of coordinates to generate
  * @param coordinates Array of coordinates forming the polygon boundary
@@ -37,9 +61,12 @@ export const generateRandomCoordinates = (
     throw new Error("At least 3 coordinates are required to form a polygon");
   }
 
+  // Sort vertices to ensure proper polygon definition
+  const sortedPolygon = sortPolygonVertices(coordinates);
+
   // Find bounding box of the polygon for efficient initial point generation
-  const lats = coordinates.map(c => c.latitude);
-  const lngs = coordinates.map(c => c.longitude);
+  const lats = sortedPolygon.map(c => c.latitude);
+  const lngs = sortedPolygon.map(c => c.longitude);
   const latMin = Math.min(...lats);
   const latMax = Math.max(...lats);
   const lngMin = Math.min(...lngs);
@@ -56,7 +83,7 @@ export const generateRandomCoordinates = (
     const point = new Mappedin.Coordinate(lat, lng);
 
     // Check if the point is inside the polygon
-    if (isPointInPolygon(point, coordinates)) {
+    if (isPointInPolygon(point, sortedPolygon)) {
       randomCoordinates.push(point);
     }
 
@@ -92,9 +119,13 @@ export const generateRandomCoordinatesWithExclusion = (
   const outerPolygon = coordinates.slice(0, 4);
   const innerPolygon = coordinates.slice(4, 8);
 
+  // Sort vertices to ensure proper polygon definition
+  const sortedOuterPolygon = sortPolygonVertices(outerPolygon);
+  const sortedInnerPolygon = sortPolygonVertices(innerPolygon);
+
   // Find bounding box of the outer polygon
-  const lats = outerPolygon.map(c => c.latitude);
-  const lngs = outerPolygon.map(c => c.longitude);
+  const lats = sortedOuterPolygon.map(c => c.latitude);
+  const lngs = sortedOuterPolygon.map(c => c.longitude);
   const latMin = Math.min(...lats);
   const latMax = Math.max(...lats);
   const lngMin = Math.min(...lngs);
@@ -111,8 +142,8 @@ export const generateRandomCoordinatesWithExclusion = (
     const point = new Mappedin.Coordinate(lat, lng);
 
     // Check if the point is inside the outer polygon but not inside the inner polygon
-    const isInOuterPolygon = isPointInPolygon(point, outerPolygon);
-    const isInInnerPolygon = isPointInPolygon(point, innerPolygon);
+    const isInOuterPolygon = isPointInPolygon(point, sortedOuterPolygon);
+    const isInInnerPolygon = isPointInPolygon(point, sortedInnerPolygon);
 
     if (isInOuterPolygon && !isInInnerPolygon) {
       randomCoordinates.push(point);
