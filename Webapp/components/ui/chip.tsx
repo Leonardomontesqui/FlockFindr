@@ -1,69 +1,74 @@
-import { PersonStanding } from "lucide-react";
+import Image from "next/image";
 import { memo } from "react";
 
-// Base component with shared logic
-const BasePeopleChip = memo(
-  ({
-    count,
-    bgColor,
-    borderColor,
-  }: {
-    count: number;
-    bgColor: string;
-    borderColor: string;
-  }) => {
-    return (
-      <div
-        className={`px-2 py-1 gap-2 flex rounded-lg items-center justify-center text-2xl w-[100px] ${bgColor} text-white border ${borderColor}`}
-      >
-        <PersonStanding size={30} color="white" />
-        <p className="font-semibold">{count}</p>
-      </div>
-    );
-  }
-);
-
-// Set displayName for BasePeopleChip
-BasePeopleChip.displayName = "BasePeopleChip";
-
-// Specialized components with fixed colors
-export const BluePeopleChip = memo(({ count }: { count: number }) => (
-  <BasePeopleChip
-    count={count}
-    bgColor="bg-[#5B8FDF]"
-    borderColor="border-[#5C8CD7]"
-  />
+// Peach themed chip
+export const PeachPeopleChip = memo(({ count }: { count: number }) => (
+  <div
+    className={`px-1.5 py-0.5 gap-1.5 flex rounded-lg items-center justify-center text-2xl w-[120px] bg-peach text-white border border-peach-dark h-[50px]`}
+  >
+    <Image src="/peach-ilo.png" alt="Peach Ilo" height={48} width={48} />
+    <p className="font-semibold">{count}</p>
+  </div>
 ));
 
-// Set displayName for BluePeopleChip
+PeachPeopleChip.displayName = "PeachPeopleChip";
+
+// Blue themed chip
+export const BluePeopleChip = memo(({ count }: { count: number }) => (
+  <div
+    className={`px-1.5 py-0.5 gap-1.5 flex rounded-lg items-center justify-center text-2xl w-[120px] bg-blue text-white border border-blue-dark h-[50px]`}
+  >
+    <Image src="/blue-ilo.png" alt="Blue Ilo" height={31} width={48} />
+    <p className="font-semibold">{count}</p>
+  </div>
+));
+
 BluePeopleChip.displayName = "BluePeopleChip";
 
-export const OrangePeopleChip = memo(({ count }: { count: number }) => (
-  <BasePeopleChip
-    count={count}
-    bgColor="bg-[#EA846D]"
-    borderColor="border-[#D77965]"
-  />
+// Green themed chip
+export const GreenPeopleChip = memo(({ count }: { count: number }) => (
+  <div
+    className={`px-1.5 py-0.5 gap-1.5 flex rounded-lg items-center justify-center text-2xl w-[120px] bg-green text-white border border-green-dark h-[50px]`}
+  >
+    <Image src="/green-ilo.png" alt="Green Ilo" height={46} width={48} />
+    <p className="font-semibold">{count}</p>
+  </div>
 ));
 
-// Set displayName for OrangePeopleChip
-OrangePeopleChip.displayName = "OrangePeopleChip";
+GreenPeopleChip.displayName = "GreenPeopleChip";
 
-// Only needed if you want a dynamic color option
+// Yellow themed chip
+export const MustardPeopleChip = memo(({ count }: { count: number }) => (
+  <div
+    className={`px-1.5 py-0.5 gap-1.5 flex rounded-lg items-center justify-center text-2xl w-[120px] bg-mustard text-white border border-mustard-dark h-[50px]`}
+  >
+    <Image src="/yellow-ilo.png" alt="Yellow Ilo" height={48} width={31} />
+    <p className="font-semibold">{count}</p>
+  </div>
+));
+
+MustardPeopleChip.displayName = "MustardPeopleChip";
+
+// Dynamic color option
 export const PeopleChip = memo(
   ({
     count,
-    primaryColor = "blue",
+    theme = "peach",
   }: {
     count: number;
-    primaryColor?: "blue" | "orange";
+    theme?: "peach" | "blue" | "green" | "mustard";
   }) => {
-    if (primaryColor === "orange") {
-      return <OrangePeopleChip count={count} />;
+    switch (theme) {
+      case "blue":
+        return <BluePeopleChip count={count} />;
+      case "green":
+        return <GreenPeopleChip count={count} />;
+      case "mustard":
+        return <MustardPeopleChip count={count} />;
+      default:
+        return <PeachPeopleChip count={count} />;
     }
-    return <BluePeopleChip count={count} />;
   }
 );
 
-// Set displayName for PeopleChip
 PeopleChip.displayName = "PeopleChip";
