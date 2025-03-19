@@ -35,6 +35,12 @@ export default function Home() {
       zoomLevel: 18.6,
       center: [43.46488819, -80.53211819], // Use a default coordinate
     });
+
+    mapView.Outdoor.setStyle(
+      "https://tiles-cdn.mappedin.com/styles/freshmint/style.json"
+    );
+
+    mapView.Labels.all();
   };
 
   return (

@@ -64,6 +64,16 @@ export default function MenuMobile() {
           className="bg-mustard border border-mustard-dark text-white hover:bg-mustard-dark shadow-lg"
         />
       </div>
+      {/* <div className="fixed bottom-0 left-0 right-0 z-50 h-[40px] bg-[#F4EFE3] border-[#DFD9CC] border-t">
+        <div className="flex items-center h-full px-4">
+          <span
+            className="text-brown text-sm"
+            style={{ fontFamily: "Times New Roman" }}
+          >
+            Socratica x FlockFindr
+          </span>
+        </div>
+      </div> */}
     </>
   );
 }
