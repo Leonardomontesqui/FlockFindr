@@ -2,7 +2,7 @@ import Mappedin, { Model, useMap } from "@mappedin/react-sdk";
 import React from "react";
 
 // Define fixed coordinates for stage in Symposium
-const stageCoordinates: Mappedin.Coordinate[] = [
+const seatCoordinates: Mappedin.Coordinate[] = [
   // Main area stage
   new Mappedin.Coordinate(43.46395364, -80.53263155),
 ];
@@ -17,7 +17,7 @@ export function Seats({
   // Select only the requested number of coordinates
   const selectedCoordinates = Array(count)
     .fill(null)
-    .map((_, index) => stageCoordinates[index % stageCoordinates.length]);
+    .map((_, index) => seatCoordinates[index % seatCoordinates.length]);
 
   return (
     <>
