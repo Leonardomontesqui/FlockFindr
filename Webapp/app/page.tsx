@@ -11,6 +11,8 @@ import { BoothNorth } from "@/components/models/boothNorth";
 import { BoothCourt } from "@/components/models/boothCourt";
 import { Stage } from "@/components/models/Stage";
 import { Seats } from "@/components/models/seatingArrangement";
+import LoadingBar from "@/components/LoadingBar";
+import { useState } from "react";
 
 const options = {
   key: process.env.NEXT_PUBLIC_MAPPEDIN_KEY,
@@ -21,8 +23,14 @@ const options = {
 export default function Home() {
   const isMobile = useMediaQuery({ maxWidth: 768 }); // Breakpoint at 768px
   const { isLoading, error, mapData } = useMapData(options);
+  const [isLoadingAnimationComplete, setIsLoadingAnimationComplete] =
+    useState(false);
 
-  if (isLoading || !mapData) return <div>Loading...</div>; // TODO: add a loading screen
+  if (isLoading || !mapData || !isLoadingAnimationComplete) {
+    return (
+      <LoadingBar onComplete={() => setIsLoadingAnimationComplete(true)} />
+    );
+  }
 
   if (error) return <div>Error: {error.message}</div>;
 

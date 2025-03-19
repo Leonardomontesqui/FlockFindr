@@ -12,6 +12,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         brown: "#5B534B",
+        "brown-light": "#8A817C",
         peach: "#EA846D",
         "peach-dark": "#D77965",
         blue: "#5B8FDF",
