@@ -140,7 +140,7 @@ export default function MenuDesktop() {
             <PeachPeopleChip
               count={counts.Activity}
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46426112, -80.53196983))
               }
             />
             <p>{counts.Activity}</p>
@@ -150,7 +150,7 @@ export default function MenuDesktop() {
             <BluePeopleChip
               count={counts.North}
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46351319, -80.53209578))
               }
             />
             <p>{counts.North}</p>
@@ -160,7 +160,7 @@ export default function MenuDesktop() {
             <GreenPeopleChip
               count={counts.East}
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46361915, -80.53259795))
               }
             />
             <p>{counts.East}</p>
@@ -170,7 +170,7 @@ export default function MenuDesktop() {
             <MustardPeopleChip
               count={counts.West}
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46396021, -80.53204176))
               }
             />
             <p>{counts.West}</p>
