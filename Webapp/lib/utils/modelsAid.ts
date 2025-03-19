@@ -1,4 +1,10 @@
 import Mappedin from "@mappedin/react-sdk";
+
+// Helper function to round to 6 decimal places
+const roundToSixDecimals = (num: number): number => {
+  return Number(num.toFixed(6));
+};
+
 export const generateRandomCoordinates = (
   count: number,
   coordinates: Mappedin.Coordinate[]
@@ -15,8 +21,8 @@ export const generateRandomCoordinates = (
   const randomCoordinates: Mappedin.Coordinate[] = [];
 
   for (let i = 0; i < count; i++) {
-    const lat = latMin + Math.random() * (latMax - latMin);
-    const lng = lngMin + Math.random() * (lngMax - lngMin);
+    const lat = roundToSixDecimals(latMin + Math.random() * (latMax - latMin));
+    const lng = roundToSixDecimals(lngMin + Math.random() * (lngMax - lngMin));
     randomCoordinates.push(new Mappedin.Coordinate(lat, lng));
   }
 
@@ -73,8 +79,12 @@ export const generateRandomCoordinatesWithExclusion = (
 
   while (randomCoordinates.length < count && attemptsCount < maxAttempts) {
     // Generate a random point within the outer bounding box
-    const lat = outerLatMin + Math.random() * (outerLatMax - outerLatMin);
-    const lng = outerLngMin + Math.random() * (outerLngMax - outerLngMin);
+    const lat = roundToSixDecimals(
+      outerLatMin + Math.random() * (outerLatMax - outerLatMin)
+    );
+    const lng = roundToSixDecimals(
+      outerLngMin + Math.random() * (outerLngMax - outerLngMin)
+    );
 
     // Check if the point is outside the inner exclusion zone
     const isInExclusionZone =

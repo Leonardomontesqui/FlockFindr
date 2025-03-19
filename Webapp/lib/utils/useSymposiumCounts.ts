@@ -64,7 +64,7 @@ export function useSymposiumCounts() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [getLatestCount]);
+  }, []); // Empty dependency array since supabase client is stable
 
   return counts;
 }

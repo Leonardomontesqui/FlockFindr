@@ -39,8 +39,6 @@ export default function Home() {
     mapView.Outdoor.setStyle(
       "https://tiles-cdn.mappedin.com/styles/freshmint/style.json"
     );
-
-    mapView.Labels.all();
   };
 
   return (
