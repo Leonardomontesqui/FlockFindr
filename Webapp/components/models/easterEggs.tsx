@@ -1,4 +1,4 @@
-import Mappedin, { Model, useMap } from "@mappedin/react-sdk";
+import Mappedin, { Model } from "@mappedin/react-sdk";
 import React from "react";
 
 // Define fixed coordinates Easter Eggs in Symposium
@@ -8,88 +8,85 @@ const llamaCoordinates: Mappedin.Coordinate[] = [
 ];
 
 const diceCoordinates: Mappedin.Coordinate[] = [
-    // Main area stage
-    new Mappedin.Coordinate(43.46376222, -80.53230378),
+  // Main area stage
+  new Mappedin.Coordinate(43.46376222, -80.53230378),
 ];
 
 const kingCoordinates: Mappedin.Coordinate[] = [
-    // Main area stage
-    new Mappedin.Coordinate(43.46376786, -80.53227660),
+  // Main area stage
+  new Mappedin.Coordinate(43.46376786, -80.5322766),
 ];
 
-export function EasterEggs ({
+export function EasterEggs({
   count = 10, // Default to 10 desks if not specified
 }: {
   count?: number;
 }) {
-    const { mapData } = useMap();
-
-    // Select only the requested number of coordinates
-    const selectedLlamaCoordinates = Array(count)
+  // Select only the requested number of coordinates
+  const selectedLlamaCoordinates = Array(count)
     .fill(null)
     .map((_, index) => llamaCoordinates[index % llamaCoordinates.length]);
 
-    const selectedDiceCoordinates = Array(count)
+  const selectedDiceCoordinates = Array(count)
     .fill(null)
     .map((_, index) => diceCoordinates[index % diceCoordinates.length]);
 
-    const selectedKingCoordinates = Array(count)
+  const selectedKingCoordinates = Array(count)
     .fill(null)
     .map((_, index) => kingCoordinates[index % kingCoordinates.length]);
 
-    return (
+  return (
     <>
-        {selectedLlamaCoordinates.map((coordinate, index) => (
+      {selectedLlamaCoordinates.map((coordinate, index) => (
         <Model
-            key={`desk-${index}`} // Ensure unique keys for each model
-            models={({
+          key={`desk-${index}`} // Ensure unique keys for each model
+          models={{
             target: coordinate,
             scale: [0.02, 0.02, 0.02], // Maintain same scale as original
             // rotation: [90, 30, 0], // Keep random rotation for visual variety
             rotation: [0, 0, 190], // Keep random rotation for visual variety
 
             opacity: 1.0, // Full opacity for stage
-            })}
-            options={{
+          }}
+          options={{
             url: "/llamaModel.glb", // Use the easter egg model instead of goose
-            
-            }}
+          }}
         />
-        ))}
+      ))}
 
-        {selectedDiceCoordinates.map((coordinate, index) => (
+      {selectedDiceCoordinates.map((coordinate, index) => (
         <Model
-            key={`desk-${index}`} // Ensure unique keys for each model
-            models={({
+          key={`desk-${index}`} // Ensure unique keys for each model
+          models={{
             target: coordinate,
-            scale: [0.20, 0.20, 0.20], // Maintain same scale as original
+            scale: [0.2, 0.2, 0.2], // Maintain same scale as original
             // rotation: [90, 30, 0], // Keep random rotation for visual variety
             rotation: [90, -150, 0], // Keep random rotation for visual variety
 
             opacity: 1.0, // Full opacity for stage
-            })}
-            options={{
+          }}
+          options={{
             url: "/diceModel.glb", // Use the easter egg model instead of goose
-            }}
+          }}
         />
-        ))}
+      ))}
 
-        {selectedKingCoordinates.map((coordinate, index) => (
+      {selectedKingCoordinates.map((coordinate, index) => (
         <Model
-            key={`desk-${index}`} // Ensure unique keys for each model
-            models={({
+          key={`desk-${index}`} // Ensure unique keys for each model
+          models={{
             target: coordinate,
-            scale: [0.20, 0.20, 0.20], // Maintain same scale as original
+            scale: [0.2, 0.2, 0.2], // Maintain same scale as original
             // rotation: [90, 30, 0], // Keep random rotation for visual variety
             rotation: [0, 180, 0], // Keep random rotation for visual variety
 
             opacity: 1.0, // Full opacity for stage
-            })}
-            options={{
+          }}
+          options={{
             url: "/kingModel.glb", // Use the easter egg model instead of goose
-            }}
+          }}
         />
-        ))}
+      ))}
     </>
-    );
+  );
 }
