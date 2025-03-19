@@ -7,16 +7,42 @@ const supabase = createSupabaseClient();
 const checkTableStructure = async () => {
   try {
     console.log("Checking table structure...");
-    const { data, error } = await supabase
+
+    // First, check if we can query the table
+    const { data: tableData, error: tableError } = await supabase
       .from("Symposium")
       .select("*")
       .limit(1);
 
-    if (error) {
-      console.error("Error checking table:", error);
+    if (tableError) {
+      console.error("Error querying table:", tableError);
     } else {
-      console.log("Table structure:", data);
+      console.log("Table data sample:", tableData);
     }
+
+    // Check if real-time is enabled for this table
+    const channel = supabase
+      .channel("table-test")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "Symposium",
+        },
+        (payload) => {
+          console.log("Test subscription received payload:", payload);
+        }
+      )
+      .subscribe((status) => {
+        console.log("Test subscription status:", status);
+      });
+
+    // Clean up test subscription after 5 seconds
+    setTimeout(() => {
+      supabase.removeChannel(channel);
+      console.log("Test subscription cleaned up");
+    }, 5000);
   } catch (e) {
     console.error("Error checking table structure:", e);
   }
@@ -26,22 +52,28 @@ const checkTableStructure = async () => {
 checkTableStructure();
 
 export const useLocation = () => {
-  const getLatestCount = async (location: string) => {
-    const { data, error } = await supabase
-      .from("Symposium")
-      .select("count")
-      .eq("location", location);
+  const getLatestCount = useCallback(async (location: string) => {
+    console.log("Attempting to fetch data for location:", location);
+    try {
+      const { data, error } = await supabase
+        .from("Symposium")
+        .select("count")
+        .eq("location", location);
 
-    console.log("Query response:", { data, error });
+      console.log("Query response:", { data, error });
 
-    if (error || !data) {
-      throw new Error(
-        `Failed to get latest customer data at ${location}: ${error?.message}`
-      );
+      if (error || !data) {
+        throw new Error(
+          `Failed to get latest customer data at ${location}: ${error?.message}`
+        );
+      }
+
+      return data;
+    } catch (e) {
+      console.error("Supabase query error:", e);
+      throw e;
     }
-
-    return data;
-  };
+  }, []); // Empty dependency array since supabase client is stable
 
   return { getLatestCount };
 };

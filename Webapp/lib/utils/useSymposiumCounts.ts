@@ -28,12 +28,16 @@ export function useSymposiumCounts() {
   });
 
   useEffect(() => {
+    console.log("Setting up initial data fetch and subscription...");
+
+    // Initial data fetch
     Promise.all([
       getLatestCount("Activity"),
       getLatestCount("East"),
       getLatestCount("West"),
       getLatestCount("North"),
     ]).then(([activity, east, west, north]) => {
+      console.log("Initial data fetched:", { activity, east, west, north });
       setCounts({
         Activity: activity[0].count,
         East: east[0].count,
@@ -42,29 +46,41 @@ export function useSymposiumCounts() {
       });
     });
 
+    // Set up real-time subscription
     const channel = supabase
-      .channel("schema-db-changes")
+      .channel("symposium-updates")
       .on(
         "postgres_changes",
         {
-          event: "UPDATE",
+          event: "*", // Listen to all events (INSERT, UPDATE, DELETE)
           schema: "public",
           table: "Symposium",
+          filter: `location=in.(Activity,East,West,North)`,
         },
         (payload) => {
+          console.log("Received real-time update:", payload);
           const updatedData: SymposiumData = payload.new as SymposiumData;
-          setCounts((prevCounts) => ({
-            ...prevCounts,
-            [updatedData.location]: updatedData.count,
-          }));
+          console.log("Updating counts with:", updatedData);
+          setCounts((prevCounts) => {
+            const newCounts = {
+              ...prevCounts,
+              [updatedData.location]: updatedData.count,
+            };
+            console.log("New counts state:", newCounts);
+            return newCounts;
+          });
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log("Subscription status:", status);
+      });
 
+    // Cleanup subscription
     return () => {
+      console.log("Cleaning up subscription...");
       supabase.removeChannel(channel);
     };
-  }, []); // Empty dependency array since supabase client is stable
+  }, [getLatestCount]); // Need to include getLatestCount as it's used in the effect
 
   return counts;
 }
