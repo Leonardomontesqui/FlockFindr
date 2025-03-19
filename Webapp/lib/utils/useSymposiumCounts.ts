@@ -52,7 +52,7 @@ export function useSymposiumCounts() {
       .on(
         "postgres_changes",
         {
-          event: "*", // Listen to all events (INSERT, UPDATE, DELETE)
+          event: "UPDATE", // Listen to all events (INSERT, UPDATE, DELETE)
           schema: "public",
           table: "Symposium",
           filter: `location=in.(Activity,East,West,North)`,

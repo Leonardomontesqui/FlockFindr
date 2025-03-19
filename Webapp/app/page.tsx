@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import MenuDesktop from "@/components/home/MenuDesktop";
 import MenuMobile from "@/components/home/MenuMobile";
-import { MapView, useMapData } from "@mappedin/react-sdk";
+import { MapView, useMapData, Label } from "@mappedin/react-sdk"; // Added Label import
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { Goose } from "@/components/models/Goose";
 import { BoothWest } from "@/components/models/boothWest";
@@ -41,10 +41,17 @@ export default function Home() {
     );
   };
 
+  // Get all spaces with names
+  const spaces = mapData.getByType('space').filter(space => space.name);
+
   return (
     <div className="h-screen w-full">
       <MapView mapData={mapData} onLoad={handleMapLoad}>
         {isMobile ? <MenuMobile /> : <MenuDesktop />}
+        {/* Add labels for all spaces */}
+        {spaces.map((space, index) => (
+          <Label key={`${index}`} target={space.center} text={space.name} />
+        ))}
         <Goose />
         <BoothWest />
         <BoothEast />
