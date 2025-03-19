@@ -2,8 +2,27 @@
 
 import React from "react";
 import Mappedin, { useMap } from "@mappedin/react-sdk";
-import { PeopleChip } from "../ui/chip";
-import { useSymposiumCounts } from "@/lib/utils/useSymposiumCounts";
+import {
+  BluePeopleChip,
+  MustardPeopleChip,
+  PeachPeopleChip,
+  GreenPeopleChip,
+} from "../ui/chip";
+import { useState, useEffect } from "react";
+import { createSupabaseClient } from "@/lib/supabase/client";
+import { useLocation } from "@/lib/supabase/useLocation";
+
+interface SymposiumData {
+  location: string;
+  count: number;
+}
+
+interface Counts {
+  Activity: number;
+  East: number;
+  West: number;
+  North: number;
+}
 
 const SocraticaLogo = () => (
   <svg
@@ -20,9 +39,78 @@ const SocraticaLogo = () => (
   </svg>
 );
 
+const supabase = createSupabaseClient();
+
+export function useSymposiumCounts() {
+  const { getLatestCount } = useLocation();
+  const [counts, setCounts] = useState<Counts>({
+    Activity: 0,
+    East: 0,
+    West: 0,
+    North: 0,
+  });
+
+  useEffect(() => {
+    console.log("Setting up initial data fetch and subscription...");
+
+    // Initial data fetch
+    Promise.all([
+      getLatestCount("Activity"),
+      getLatestCount("East"),
+      getLatestCount("West"),
+      getLatestCount("North"),
+    ]).then(([activity, east, west, north]) => {
+      console.log("Initial data fetched:", { activity, east, west, north });
+      setCounts({
+        Activity: activity[0].count,
+        East: east[0].count,
+        West: west[0].count,
+        North: north[0].count,
+      });
+    });
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel("symposium-updates")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE", // Listen to all events (INSERT, UPDATE, DELETE)
+          schema: "public",
+          table: "Symposium",
+          filter: `location=in.(Activity,East,West,North)`,
+        },
+        (payload) => {
+          console.log("Received real-time update:", payload);
+          const updatedData: SymposiumData = payload.new as SymposiumData;
+          console.log("Updating counts with:", updatedData);
+          setCounts((prevCounts) => {
+            const newCounts = {
+              ...prevCounts,
+              [updatedData.location]: updatedData.count,
+            };
+            console.log("New counts state:", newCounts);
+            return newCounts;
+          });
+        }
+      )
+      .subscribe((status) => {
+        console.log("Subscription status:", status);
+      });
+
+    // Cleanup subscription
+    return () => {
+      console.log("Cleaning up subscription...");
+      supabase.removeChannel(channel);
+    };
+  }, [getLatestCount]); // Need to include getLatestCount as it's used in the effect
+
+  return counts;
+}
+
 export default function MenuDesktop() {
-  const { mapView } = useMap();
   const counts = useSymposiumCounts();
+  const { mapView } = useMap();
 
   function go(coordinate: Mappedin.Coordinate) {
     mapView.Camera.focusOn(coordinate);
@@ -49,43 +137,43 @@ export default function MenuDesktop() {
         <div className="flex flex-col">
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">Activity Court</p>
-            <PeopleChip
+            <PeachPeopleChip
               count={counts.Activity}
-              theme="peach"
               onClick={() =>
                 go(new Mappedin.Coordinate(43.47136597, -80.5452103))
               }
             />
+            <p>{counts.Activity}</p>
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">North Track</p>
-            <PeopleChip
+            <BluePeopleChip
               count={counts.North}
-              theme="blue"
               onClick={() =>
                 go(new Mappedin.Coordinate(43.47136597, -80.5452103))
               }
             />
+            <p>{counts.North}</p>
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">East Track</p>
-            <PeopleChip
+            <GreenPeopleChip
               count={counts.East}
-              theme="green"
               onClick={() =>
                 go(new Mappedin.Coordinate(43.47136597, -80.5452103))
               }
             />
+            <p>{counts.East}</p>
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">West Track</p>
-            <PeopleChip
+            <MustardPeopleChip
               count={counts.West}
-              theme="mustard"
               onClick={() =>
                 go(new Mappedin.Coordinate(43.47136597, -80.5452103))
               }
             />
+            <p>{counts.West}</p>
           </div>
         </div>
       </div>
