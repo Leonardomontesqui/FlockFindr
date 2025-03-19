@@ -49,19 +49,43 @@ export default function MenuDesktop() {
         <div className="flex flex-col">
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">Activity Court</p>
-            <PeopleChip count={counts.Activity} theme="peach" />
+            <PeopleChip
+              count={counts.Activity}
+              theme="peach"
+              onClick={() =>
+                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+              }
+            />
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">North Track</p>
-            <PeopleChip count={counts.North} theme="blue" />
+            <PeopleChip
+              count={counts.North}
+              theme="blue"
+              onClick={() =>
+                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+              }
+            />
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">East Track</p>
-            <PeopleChip count={counts.East} theme="green" />
+            <PeopleChip
+              count={counts.East}
+              theme="green"
+              onClick={() =>
+                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+              }
+            />
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">West Track</p>
-            <PeopleChip count={counts.West} theme="mustard" />
+            <PeopleChip
+              count={counts.West}
+              theme="mustard"
+              onClick={() =>
+                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+              }
+            />
           </div>
         </div>
       </div>

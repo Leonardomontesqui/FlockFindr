@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Mappedin, { useMap } from "@mappedin/react-sdk";
 import { useSymposiumCounts } from "@/lib/utils/useSymposiumCounts";
 import { PersonStanding, ArrowRight } from "lucide-react";
 
@@ -8,13 +9,16 @@ const LocationButton = ({
   location,
   count,
   className,
+  onClick,
 }: {
   location: string;
   count: number;
   className: string;
+  onClick?: () => void;
 }) => (
   <button
     className={`flex items-center justify-between px-2 py-1 rounded-full w-fit ${className}`}
+    onClick={onClick}
   >
     <div className="flex items-center gap-0 w-12">
       <PersonStanding size={20} />
@@ -29,6 +33,11 @@ const LocationButton = ({
 
 export default function MenuMobile() {
   const counts = useSymposiumCounts();
+  const { mapView } = useMap();
+
+  function go(coordinate: Mappedin.Coordinate) {
+    mapView.Camera.focusOn(coordinate);
+  }
 
   return (
     <>
@@ -47,6 +56,7 @@ export default function MenuMobile() {
           location="Activity Court"
           count={counts.Activity}
           className="bg-peach border border-peach-dark text-white hover:bg-peach-dark shadow-lg"
+          onClick={() => go(new Mappedin.Coordinate(43.47136597, -80.5452103))}
         />
         <LocationButton
           location="North Track"
