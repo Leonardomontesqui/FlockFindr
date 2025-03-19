@@ -1,38 +1,81 @@
 import Mappedin from "@mappedin/react-sdk";
 
-// Helper function to round to 6 decimal places
-const roundToSixDecimals = (num: number): number => {
-  return Number(num.toFixed(6));
+/**
+ * Determines if a point is inside a polygon using the ray casting algorithm
+ */
+const isPointInPolygon = (
+  point: Mappedin.Coordinate,
+  polygon: Mappedin.Coordinate[]
+): boolean => {
+  let inside = false;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const xi = polygon[i].longitude;
+    const yi = polygon[i].latitude;
+    const xj = polygon[j].longitude;
+    const yj = polygon[j].latitude;
+    
+    const intersect = ((yi > point.latitude) !== (yj > point.latitude)) &&
+      (point.longitude < (xj - xi) * (point.latitude - yi) / (yj - yi) + xi);
+    
+    if (intersect) inside = !inside;
+  }
+  
+  return inside;
 };
 
+/**
+ * Generates random coordinates within a polygon boundary
+ * @param count Number of coordinates to generate
+ * @param coordinates Array of coordinates forming the polygon boundary
+ * @returns Array of random coordinates
+ */
 export const generateRandomCoordinates = (
   count: number,
   coordinates: Mappedin.Coordinate[]
 ): Mappedin.Coordinate[] => {
-  // Sort coordinates to create a proper bounding box
-  const sortedLats = coordinates.map((c) => c.latitude).sort((a, b) => a - b);
-  const sortedLngs = coordinates.map((c) => c.longitude).sort((a, b) => a - b);
+  if (coordinates.length < 3) {
+    throw new Error("At least 3 coordinates are required to form a polygon");
+  }
 
-  const latMin = sortedLats[0];
-  const latMax = sortedLats[sortedLats.length - 1];
-  const lngMin = sortedLngs[0];
-  const lngMax = sortedLngs[sortedLngs.length - 1];
+  // Find bounding box of the polygon for efficient initial point generation
+  const lats = coordinates.map(c => c.latitude);
+  const lngs = coordinates.map(c => c.longitude);
+  const latMin = Math.min(...lats);
+  const latMax = Math.max(...lats);
+  const lngMin = Math.min(...lngs);
+  const lngMax = Math.max(...lngs);
 
   const randomCoordinates: Mappedin.Coordinate[] = [];
+  let attemptsCount = 0;
+  const maxAttempts = count * 20; // Allow more attempts for complex polygons
 
-  for (let i = 0; i < count; i++) {
-    const lat = roundToSixDecimals(latMin + Math.random() * (latMax - latMin));
-    const lng = roundToSixDecimals(lngMin + Math.random() * (lngMax - lngMin));
-    randomCoordinates.push(new Mappedin.Coordinate(lat, lng));
+  while (randomCoordinates.length < count && attemptsCount < maxAttempts) {
+    // Generate a random point within the bounding box
+    const lat = latMin + Math.random() * (latMax - latMin);
+    const lng = lngMin + Math.random() * (lngMax - lngMin);
+    const point = new Mappedin.Coordinate(lat, lng);
+
+    // Check if the point is inside the polygon
+    if (isPointInPolygon(point, coordinates)) {
+      randomCoordinates.push(point);
+    }
+
+    attemptsCount++;
+  }
+
+  if (randomCoordinates.length < count) {
+    console.warn(
+      `Could only generate ${randomCoordinates.length} out of ${count} requested coordinates after ${maxAttempts} attempts`
+    );
   }
 
   return randomCoordinates;
 };
 
 /**
- * Generates random coordinates within an outer bounding box but excluding an inner bounding box
+ * Generates random coordinates within an outer polygon but excluding an inner polygon
  * @param count Number of coordinates to generate
- * @param coordinates Array of 8 coordinates - first 4 form outer bounding box, next 4 form inner exclusion zone
+ * @param coordinates Array of 8 coordinates - first 4 form outer polygon, next 4 form inner exclusion zone
  * @returns Array of random coordinates
  */
 export const generateRandomCoordinatesWithExclusion = (
@@ -45,56 +88,34 @@ export const generateRandomCoordinatesWithExclusion = (
     );
   }
 
-  // Extract and sort outer bounds (first 4 coordinates)
-  const outerCoordinates = coordinates.slice(0, 4);
-  const outerSortedLats = outerCoordinates
-    .map((c) => c.latitude)
-    .sort((a, b) => a - b);
-  const outerSortedLngs = outerCoordinates
-    .map((c) => c.longitude)
-    .sort((a, b) => a - b);
+  // Extract outer and inner polygon coordinates
+  const outerPolygon = coordinates.slice(0, 4);
+  const innerPolygon = coordinates.slice(4, 8);
 
-  const outerLatMin = outerSortedLats[0];
-  const outerLatMax = outerSortedLats[outerSortedLats.length - 1];
-  const outerLngMin = outerSortedLngs[0];
-  const outerLngMax = outerSortedLngs[outerSortedLngs.length - 1];
-
-  // Extract and sort inner bounds (next 4 coordinates)
-  const innerCoordinates = coordinates.slice(4, 8);
-  const innerSortedLats = innerCoordinates
-    .map((c) => c.latitude)
-    .sort((a, b) => a - b);
-  const innerSortedLngs = innerCoordinates
-    .map((c) => c.longitude)
-    .sort((a, b) => a - b);
-
-  const innerLatMin = innerSortedLats[0];
-  const innerLatMax = innerSortedLats[innerSortedLats.length - 1];
-  const innerLngMin = innerSortedLngs[0];
-  const innerLngMax = innerSortedLngs[innerSortedLngs.length - 1];
+  // Find bounding box of the outer polygon
+  const lats = outerPolygon.map(c => c.latitude);
+  const lngs = outerPolygon.map(c => c.longitude);
+  const latMin = Math.min(...lats);
+  const latMax = Math.max(...lats);
+  const lngMin = Math.min(...lngs);
+  const lngMax = Math.max(...lngs);
 
   const randomCoordinates: Mappedin.Coordinate[] = [];
   let attemptsCount = 0;
-  const maxAttempts = count * 10; // Limit attempts to avoid infinite loops
+  const maxAttempts = count * 20;
 
   while (randomCoordinates.length < count && attemptsCount < maxAttempts) {
-    // Generate a random point within the outer bounding box
-    const lat = roundToSixDecimals(
-      outerLatMin + Math.random() * (outerLatMax - outerLatMin)
-    );
-    const lng = roundToSixDecimals(
-      outerLngMin + Math.random() * (outerLngMax - outerLngMin)
-    );
+    // Generate a random point within the bounding box
+    const lat = latMin + Math.random() * (latMax - latMin);
+    const lng = lngMin + Math.random() * (lngMax - lngMin);
+    const point = new Mappedin.Coordinate(lat, lng);
 
-    // Check if the point is outside the inner exclusion zone
-    const isInExclusionZone =
-      lat >= innerLatMin &&
-      lat <= innerLatMax &&
-      lng >= innerLngMin &&
-      lng <= innerLngMax;
+    // Check if the point is inside the outer polygon but not inside the inner polygon
+    const isInOuterPolygon = isPointInPolygon(point, outerPolygon);
+    const isInInnerPolygon = isPointInPolygon(point, innerPolygon);
 
-    if (!isInExclusionZone) {
-      randomCoordinates.push(new Mappedin.Coordinate(lat, lng));
+    if (isInOuterPolygon && !isInInnerPolygon) {
+      randomCoordinates.push(point);
     }
 
     attemptsCount++;
