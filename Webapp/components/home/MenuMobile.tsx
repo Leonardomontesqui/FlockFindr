@@ -3,7 +3,7 @@
 import React from "react";
 import Mappedin, { useMap } from "@mappedin/react-sdk";
 import { useSymposiumCounts } from "@/lib/utils/useSymposiumCounts";
-import { PersonStanding, ArrowRight, Twitter } from "lucide-react";
+import { PersonStanding, ArrowRight } from "lucide-react";
 
 const TwitterIcon = () => (
   <svg
