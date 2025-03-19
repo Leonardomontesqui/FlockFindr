@@ -36,7 +36,12 @@ export default function MenuMobile() {
   const { mapView } = useMap();
 
   function go(coordinate: Mappedin.Coordinate) {
-    mapView.Camera.focusOn(coordinate);
+    mapView.Camera.set({
+      bearing: 190,
+      pitch: 50,
+      zoomLevel: 20,
+      center: coordinate,
+    });
   }
 
   return (
