@@ -1,5 +1,6 @@
 import "./globals.css"; // Ensure you have a global CSS file for custom styles if needed
 import React from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
   title: "Flock Finder",
@@ -21,8 +22,8 @@ export default function RootLayout({
       </head>
       <body className="m-0 p-0 h-screen w-full overflow-hidden">
         {children}
+        <Analytics />
       </body>
     </html>
   );
 }
-// not sure if the following fixed the overflow
