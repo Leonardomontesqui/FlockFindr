@@ -11,6 +11,7 @@ import { BoothNorth } from "@/components/models/boothNorth";
 import { BoothCourt } from "@/components/models/boothCourt";
 import { Stage } from "@/components/models/Stage";
 import { Seats } from "@/components/models/seatingArrangement";
+import { EasterEggs } from "@/components/models/easterEggs";
 import LoadingBar from "@/components/LoadingBar";
 import { useState } from "react";
 
@@ -65,6 +66,7 @@ export default function Home() {
         <BoothCourt />
         <Stage />
         <Seats />
+        <EasterEggs />
       </MapView>
     </div>
   );
