@@ -56,22 +56,25 @@ export default function MenuMobile() {
           location="Activity Court"
           count={counts.Activity}
           className="bg-peach border border-peach-dark text-white hover:bg-peach-dark shadow-lg"
-          onClick={() => go(new Mappedin.Coordinate(43.47136597, -80.5452103))}
+          onClick={() => go(new Mappedin.Coordinate(43.46427670, -80.53197397))}
         />
         <LocationButton
           location="North Track"
           count={counts.North}
           className="bg-blue border border-blue-dark text-white hover:bg-blue-dark shadow-lg"
+          onClick={() => go(new Mappedin.Coordinate(43.46351545, -80.53210472))}
         />
         <LocationButton
           location="East Track"
           count={counts.East}
           className="bg-green border border-green-dark text-white hover:bg-green-dark shadow-lg"
+          onClick={() => go(new Mappedin.Coordinate(43.46363835, -80.53261381))}
         />
         <LocationButton
           location="West Track"
           count={counts.West}
           className="bg-mustard border border-mustard-dark text-white hover:bg-mustard-dark shadow-lg"
+          onClick={() => go(new Mappedin.Coordinate(43.46393357, -80.53201389))}
         />
       </div>
     </>

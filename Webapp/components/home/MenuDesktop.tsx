@@ -53,7 +53,7 @@ export default function MenuDesktop() {
               count={counts.Activity}
               theme="peach"
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46426112, -80.53196983))
               }
             />
           </div>
@@ -63,7 +63,7 @@ export default function MenuDesktop() {
               count={counts.North}
               theme="blue"
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46351319, -80.53209578))
               }
             />
           </div>
@@ -73,7 +73,7 @@ export default function MenuDesktop() {
               count={counts.East}
               theme="green"
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46361915, -80.53259795))
               }
             />
           </div>
@@ -83,7 +83,7 @@ export default function MenuDesktop() {
               count={counts.West}
               theme="mustard"
               onClick={() =>
-                go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+                go(new Mappedin.Coordinate(43.46396021, -80.53204176))
               }
             />
           </div>
