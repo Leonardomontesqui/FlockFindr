@@ -46,9 +46,7 @@ export default function Home() {
         onLoad={(
           mapView: Mappedin.MapView | React.SyntheticEvent<HTMLDivElement>
         ) => {
-          if ("Camera" in mapView) {
-            handleMapLoad(mapView as Mappedin.MapView);
-          }
+          handleMapLoad(mapView as Mappedin.MapView);
         }}
       >
         {isMobile ? <MenuMobile /> : <MenuDesktop />}
