@@ -41,18 +41,18 @@ export default function MenuDesktop() {
       <div className="flex gap-8 items-center">
         <div className="flex gap-2 items-center">
           <PeopleChip count={counts.Activity} primaryColor="orange" />
-          <p className="font-medium">Hockey Rink</p>
+          <p className="font-medium">Activity Court</p>
           <ArrowRight
             onClick={() =>
-              go(new Mappedin.Coordinate(43.47136597, -80.5452103))
+              go(new Mappedin.Coordinate(43.46393061, -80.53211891))
             }
           />
         </div>
         <div className="flex gap-2 items-center">
           <PeopleChip count={counts.East} primaryColor="blue" />
-          <p className="font-medium">Basketball Arena</p>
+          <p className="font-medium">East Desks</p>
           <ArrowRight
-            onClick={() => go(new Mappedin.Coordinate(43.4703, -80.5405))}
+            onClick={() => go(new Mappedin.Coordinate(43.46423976, -80.53193119))}
           />
         </div>
       </div>
