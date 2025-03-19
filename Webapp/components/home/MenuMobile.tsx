@@ -3,7 +3,24 @@
 import React from "react";
 import Mappedin, { useMap } from "@mappedin/react-sdk";
 import { useSymposiumCounts } from "@/lib/utils/useSymposiumCounts";
-import { PersonStanding, ArrowRight } from "lucide-react";
+import { PersonStanding, ArrowRight, Twitter } from "lucide-react";
+
+const TwitterIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-twitter"
+  >
+    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+  </svg>
+);
 
 const SocraticaLogo = () => (
   <svg
@@ -69,11 +86,13 @@ export default function MenuMobile() {
           >
             Foot Traffic at Symposium
           </h1>
-          <p className="text-start flex justify-start gap-2 items-center text-[12px] text-brown-light">
-            <SocraticaLogo />
-            <span style={{ fontFamily: "Times New Roman" }}>Socratica</span>
-            <span>X FlockFindr</span>
-          </p>
+          <div>
+            <p className="text-start flex justify-start gap-2 items-center text-[12px] text-brown-light">
+              <SocraticaLogo />
+              <span style={{ fontFamily: "Times New Roman" }}>Socratica</span>
+              <span>X FlockFindr</span>
+            </p>
+          </div>
         </div>
       </div>
       <div className="fixed top-[80px] left-2 right-2 z-40 flex flex-wrap gap-2">
@@ -101,6 +120,37 @@ export default function MenuMobile() {
           className="bg-mustard border border-mustard-dark text-white hover:bg-mustard-dark shadow-lg"
           onClick={() => go(new Mappedin.Coordinate(43.46393357, -80.53201389))}
         />
+      </div>
+      <div className="fixed bottom-0 right-0 z-50">
+        <p className="text-[12px] text-brown-light bg-[#F4EFE3] px-3 py-2 flex items-center gap-2">
+          <TwitterIcon />
+          <a
+            href="https://x.com/LeoMq06"
+            className="underline hover:text-brown"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Leo
+          </a>
+          ,{" "}
+          <a
+            href="https://x.com/nbiyani06"
+            className="underline hover:text-brown"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Naman
+          </a>
+          ,{" "}
+          <a
+            href="https://x.com/tanmaymshah"
+            className="underline hover:text-brown"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Tanmay
+          </a>
+        </p>
       </div>
     </>
   );
