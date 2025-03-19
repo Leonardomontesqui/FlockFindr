@@ -143,7 +143,6 @@ export default function MenuDesktop() {
                 go(new Mappedin.Coordinate(43.46426112, -80.53196983))
               }
             />
-            <p>{counts.Activity}</p>
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">North Track</p>
@@ -153,7 +152,6 @@ export default function MenuDesktop() {
                 go(new Mappedin.Coordinate(43.46351319, -80.53209578))
               }
             />
-            <p>{counts.North}</p>
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">East Track</p>
@@ -163,7 +161,6 @@ export default function MenuDesktop() {
                 go(new Mappedin.Coordinate(43.46361915, -80.53259795))
               }
             />
-            <p>{counts.East}</p>
           </div>
           <div className="flex items-center gap-4 p-4 justify-between">
             <p className="font-medium text-brown text-[20px]">West Track</p>
@@ -173,7 +170,6 @@ export default function MenuDesktop() {
                 go(new Mappedin.Coordinate(43.46396021, -80.53204176))
               }
             />
-            <p>{counts.West}</p>
           </div>
         </div>
       </div>
