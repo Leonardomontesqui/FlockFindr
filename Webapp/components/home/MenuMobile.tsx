@@ -20,11 +20,11 @@ const LocationButton = ({
     className={`flex items-center justify-between px-2 py-1 rounded-full w-fit ${className}`}
     onClick={onClick}
   >
-    <div className="flex items-center gap-0 w-12">
+    <div className="flex items-center gap-0 w-[52px]">
       <PersonStanding size={20} />
       <span className="font-bold">{count}</span>
     </div>
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1">
       <span>{location}</span>
       <ArrowRight size={20} />
     </div>
@@ -56,7 +56,7 @@ export default function MenuMobile() {
           location="Activity Court"
           count={counts.Activity}
           className="bg-peach border border-peach-dark text-white hover:bg-peach-dark shadow-lg"
-          onClick={() => go(new Mappedin.Coordinate(43.46427670, -80.53197397))}
+          onClick={() => go(new Mappedin.Coordinate(43.4642767, -80.53197397))}
         />
         <LocationButton
           location="North Track"
