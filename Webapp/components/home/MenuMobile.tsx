@@ -13,7 +13,7 @@ const TwitterIcon = () => (
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    stroke-width="2"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
     className="lucide lucide-twitter"
@@ -86,11 +86,40 @@ export default function MenuMobile() {
           >
             Foot Traffic at Symposium
           </h1>
-          <div>
+          <div className="flex jutsify-between w-full">
             <p className="text-start flex justify-start gap-2 items-center text-[12px] text-brown-light">
               <SocraticaLogo />
               <span style={{ fontFamily: "Times New Roman" }}>Socratica</span>
               <span>X FlockFindr</span>
+            </p>
+            <p className="text-[12px] text-brown-light flex items-center gap-2 ml-auto">
+              <TwitterIcon />
+              <a
+                href="https://x.com/LeoMq06"
+                className="underline hover:text-brown"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Leo
+              </a>
+              ,{" "}
+              <a
+                href="https://x.com/nbiyani06"
+                className="underline hover:text-brown"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Naman
+              </a>
+              ,{" "}
+              <a
+                href="https://x.com/tanmaymshah"
+                className="underline hover:text-brown"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Tanmay
+              </a>
             </p>
           </div>
         </div>
@@ -120,37 +149,6 @@ export default function MenuMobile() {
           className="bg-mustard border border-mustard-dark text-white hover:bg-mustard-dark shadow-lg"
           onClick={() => go(new Mappedin.Coordinate(43.46393357, -80.53201389))}
         />
-      </div>
-      <div className="fixed bottom-0 right-0 z-50">
-        <p className="text-[12px] text-brown-light bg-[#F4EFE3] px-3 py-2 flex items-center gap-2">
-          <TwitterIcon />
-          <a
-            href="https://x.com/LeoMq06"
-            className="underline hover:text-brown"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Leo
-          </a>
-          ,{" "}
-          <a
-            href="https://x.com/nbiyani06"
-            className="underline hover:text-brown"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Naman
-          </a>
-          ,{" "}
-          <a
-            href="https://x.com/tanmaymshah"
-            className="underline hover:text-brown"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Tanmay
-          </a>
-        </p>
       </div>
     </>
   );
