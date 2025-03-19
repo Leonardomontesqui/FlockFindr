@@ -3,7 +3,7 @@
 import { useMediaQuery } from "react-responsive";
 import MenuDesktop from "@/components/home/MenuDesktop";
 import MenuMobile from "@/components/home/MenuMobile";
-import Mappedin, { MapView, useMapData, Label } from "@mappedin/react-sdk"; // Added Label import
+import Mappedin, { MapView, useMapData } from "@mappedin/react-sdk"; // Added Label import
 import { Goose } from "@/components/models/Goose";
 import { BoothWest } from "@/components/models/boothWest";
 import { BoothEast } from "@/components/models/boothEast";
